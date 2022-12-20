@@ -1,0 +1,16 @@
+name: Convert Excel to HTML Table
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pandas
+    - name: Convert Excel to HTML Table
+      run: |
+        python3 -c "import pandas as pd; df = pd.read_excel('$GITHUB_WORKSPACE/sampledatainsurance.xlsx'); print(df.to_html())" > "$GITHUB_WORKSPACE/table.html"
