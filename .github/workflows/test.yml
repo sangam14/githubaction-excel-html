@@ -1,4 +1,4 @@
-name: Convert Excel to HTML Table
+name: Convert Excel to HTML Page and Publish to GitHub Pages
 
 on: push
 
@@ -13,4 +13,14 @@ jobs:
         sudo apt-get install -y python3-pandas
     - name: Convert Excel to HTML Table
       run: |
-        python3 -c "import pandas as pd; df = pd.read_excel('$GITHUB_WORKSPACE/sampledatainsurance.xlsx'); print(df.to_html())" > "$GITHUB_WORKSPACE/table.html"
+        python3 -c "import pandas as pd; df = pd.read_excel('$GITHUB_WORKSPACE/sampledatainsurance.xlsx.xlsx'); print(df.to_html())" > "$GITHUB_WORKSPACE/table.html"
+    - name: Create HTML Page
+      run: |
+        echo "<html><body>" > "$GITHUB_WORKSPACE/index.html"
+        cat "$GITHUB_WORKSPACE/table.html" >> "$GITHUB_WORKSPACE/index.html"
+        echo "</body></html>" >> "$GITHUB_WORKSPACE/index.html"
+    - name: Push to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "$GITHUB_WORKSPACE"
