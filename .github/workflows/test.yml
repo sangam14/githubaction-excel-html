@@ -12,4 +12,11 @@ jobs:
     - name: Convert Excel to HTML
       uses: peter-evans/excel-to-html@v1
       with:
-        excel_file: ./sampledatainsurance.xlsx
+        excel_file: /sampledatainsurance.xlsx
+      id: html
+    - name: Save output HTML file
+      run: |
+        mkdir -p output
+        echo "${{ steps.html.outputs.html }}" > output/output.html
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
