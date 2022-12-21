@@ -13,4 +13,3 @@ jobs:
       uses: peter-evans/excel-to-html@v1
       with:
         excel_file: ./sampledatainsurance.xlsx
-
